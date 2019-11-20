@@ -1,10 +1,12 @@
 require 'csv'
   desc "import data"
   task import: :environment do
-    merchant_csv = "sales_data/merchants.csv"
-    csv_text = File.read(merchant_csv)
-    csv = CSV.parse(csv_text, :headers => true)
-    csv.each do |row|
-      Merchant.create!(row.to_hash)
-    end
+      ['merchants','items','customers','invoices','invoice_items','transactions'].each do |file|
+        sales_csv = File.read("sales_data/#{file}.csv")
+        csv = CSV.parse(sales_csv, :headers => true)
+        model = file.camelize.singularize.constantize
+        csv.each do |row|
+          model.create!(row.to_hash)
+        end
+      end
   end
