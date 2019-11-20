@@ -1,3 +1,6 @@
 class Merchant < ApplicationRecord
-
-end 
+  has_many :items
+  has_many :invoices
+  
+  validates_presence_of :name
+end
