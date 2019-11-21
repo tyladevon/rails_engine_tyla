@@ -13,7 +13,7 @@ describe "Merchants API" do
       expect(merchants.count).to eq(3)
   end
 
-  it "can get one item by its id" do
+  it "can get one merchant by its id" do
     id = create(:merchant).id
 
     get "/api/v1/merchants/#{id}"
@@ -24,7 +24,9 @@ describe "Merchants API" do
     expect(merchant["data"]["id"]).to eq(id.to_s)
   end
 
-  it "can find by attributes" do
+
+  it "can find by attributes and return one item" do
+
     merchant_attributes = attributes_for(:merchant)
     merchant = create(:merchant, merchant_attributes)
 
@@ -38,6 +40,24 @@ describe "Merchants API" do
 
     expect(response).to be_successful
     expect(response_body[:data][:attributes][:name]).to eq(merchant.name)
+
+  end
+
+
+  it "can find by an attribute and return all for query" do
+    merchant_attributes = attributes_for(:merchant)
+    merchant = create(:merchant, merchant_attributes)
+
+    get "/api/v1/merchants/find_all?name=#{merchant.id}"
+
+    response_body = JSON.parse(response.body, symbolize_names: true)
+    # expect(response).to be_successful
+    # expect(response_body[:data][:attributes][:name]).to eq(merchant.name)
+
+    get "/api/v1/merchants/find_all?created_at=#{merchant.created_at}"
+
+    expect(response).to be_successful
+    # expect(response_body[:data][:attributes][:name]).to eq(merchant.name)
 
   end
 end
