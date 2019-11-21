@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe "Merchants API" do
   it 'sends a list of merchants' do
-      create_list(:merchant, 100)
+      create_list(:merchant, 3)
 
       get '/api/v1/merchants'
 
@@ -10,7 +10,7 @@ describe "Merchants API" do
 
       merchants = JSON.parse(response.body)
 
-      expect(merchants.count).to eq(100)
+      expect(merchants.count).to eq(3)
   end
 
   it "can get one item by its id" do
@@ -22,5 +22,22 @@ describe "Merchants API" do
 
     expect(response).to be_successful
     expect(merchant["data"]["id"]).to eq(id.to_s)
+  end
+
+  it "can find by attributes" do
+    merchant_attributes = attributes_for(:merchant)
+    merchant = create(:merchant, merchant_attributes)
+
+    get "/api/v1/merchants/find?name=#{merchant.name}"
+
+    response_body = JSON.parse(response.body, symbolize_names: true)
+    expect(response).to be_successful
+    expect(response_body[:data][:attributes][:name]).to eq(merchant.name)
+
+    get "/api/v1/merchants/find?created_at=#{merchant.created_at}"
+
+    expect(response).to be_successful
+    expect(response_body[:data][:attributes][:name]).to eq(merchant.name)
+
   end
 end
