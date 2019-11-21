@@ -1,5 +1,7 @@
 FactoryBot.define do
   factory :merchant do
-    name { "Marble Law"}
-  end 
+    sequence :name do |n|
+      "Marble Florist and Greenhouse #{n}"
+    end
+  end
 end
