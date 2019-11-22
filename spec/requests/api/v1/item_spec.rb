@@ -40,24 +40,24 @@ describe "Item API" do
   end
 
   it "can find by an attribute and return all for query" do
-    item = create(:item)
+    create_time = ("2012-03-27 14:53:59 UTC")
+    time_2 = ("2012-03-25 14:53:59 UTC")
+    item_1 = create(:item, created_at: create_time)
+    item_2 = create(:item, created_at: create_time)
+    item_3 = create(:item, created_at: create_time)
+    item_4 = create(:item, created_at: time_2)
 
-    get "/api/v1/items/find_all?name=#{item.merchant_id}"
-    response_body = JSON.parse(response.body, symbolize_names: true)
-
-    expect(response).to be_successful
-    # expect(response_body[:data]).to eq([])
-    # expect(response_body[:merchant_id]).to eq(item.merchant_id)
-
-    get "/api/v1/items/find_all?created_at=#{item.created_at}"
-
-    response_body = JSON.parse(response.body, symbolize_names: true)
+    get "/api/v1/items/find_all?created_at=#{create_time}"
 
     expect(response).to be_successful
-    # expect(response_body[:id]).to eq(item.id)
+
+    items = JSON.parse(response.body, symbolize_names: true)
+
+    expect(items[:data].count).to eq(3)
   end
+
   it "can search random and get back a random item" do
-    merchant = create(:item)
+    item = create(:item)
 
     get '/api/v1/items/random'
     expect(response).to be_successful
