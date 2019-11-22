@@ -42,19 +42,27 @@ describe "Merchants API" do
   end
 
   it "can find by an attribute and return all for query" do
-    merchant_attributes = attributes_for(:merchant)
-    merchant = create(:merchant, merchant_attributes)
+    create_time = ("2012-03-27 14:53:59 UTC")
+    time_2 = ("2012-03-25 14:53:59 UTC")
+    merchant_1 = create(:merchant, created_at: create_time)
+    merchant_2 = create(:merchant, created_at: create_time)
+    merchant_3 = create(:merchant, created_at: create_time)
+    merchant_4 = create(:merchant, created_at: time_2)
 
-    get "/api/v1/merchants/find_all?name=#{merchant.id}"
-
-    response_body = JSON.parse(response.body, symbolize_names: true)
-    # expect(response).to be_successful
-    # expect(response_body[:data][:attributes][:name]).to eq(merchant.name)
-
-    get "/api/v1/merchants/find_all?created_at=#{merchant.created_at}"
+    get "/api/v1/merchants/find_all?created_at=#{create_time}"
 
     expect(response).to be_successful
-    # expect(response_body[:data][:attributes][:name]).to eq(merchant.name)
+
+    merchants = JSON.parse(response.body, symbolize_names: true)
+
+    expect(merchants[:data].count).to eq(3)
+  end
+
+  it "can search random and get back a random merchant" do
+    merchant = create(:merchant)
+
+    get '/api/v1/merchants/random'
+    expect(response).to be_successful
 
   end
 end

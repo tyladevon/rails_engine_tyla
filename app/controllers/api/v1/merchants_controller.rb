@@ -1,7 +1,9 @@
 class Api::V1::MerchantsController < ApplicationController
 
   def index
-    render json: Merchant.all
+    merchant = Merchant.all
+    serialized_merchant = MerchantSerializer.new(merchant)
+    render json: merchant
   end
 
   def show
@@ -20,6 +22,12 @@ class Api::V1::MerchantsController < ApplicationController
       merchant = Merchant.where(find_params)
       serialized_merchant = MerchantSerializer.new(merchant)
       render json: serialized_merchant
+  end
+
+  def random
+    merchant = Merchant.random
+    serialized_merchant = MerchantSerializer.new(merchant)
+    render json: serialized_merchant
   end
 
   private
