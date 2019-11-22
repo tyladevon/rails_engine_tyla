@@ -22,6 +22,12 @@ class Api::V1::ItemsController < ApplicationController
       render json: serialized_item
   end
 
+  def random
+    item = Item.random
+    serialized_item = ItemSerializer.new(item)
+    render json: serialized_item
+  end
+
   private
 
   def find_params
