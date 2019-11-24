@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :transaction do
-    invoice_id {1}
+    association :invoice
     credit_card_number {4654405418249678}
     credit_card_expiration_date {""}
     result {"success"}
