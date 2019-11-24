@@ -3,7 +3,7 @@ class Api::V1::CustomersController < ApplicationController
   def index
     customer = Customer.all
     serialized_customer = CustomerSerializer.new(customer)
-    render json: customer
+    render json: serialized_customer
   end
 
   def show
