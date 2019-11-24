@@ -3,7 +3,7 @@ class Api::V1::InvoicesController < ApplicationController
   def index
     invoice = Invoice.all
     serialized_invoice = InvoiceSerializer.new(invoice)
-    render json: invoice
+    render json: serialized_invoice
   end
 
   def show

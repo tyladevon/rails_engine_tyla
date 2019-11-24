@@ -3,7 +3,7 @@ class Api::V1::ItemsController < ApplicationController
   def index
     item = Item.all
     serialized_item = ItemSerializer.new(item)
-    render json: item
+    render json: serialized_item
   end
 
   def show
