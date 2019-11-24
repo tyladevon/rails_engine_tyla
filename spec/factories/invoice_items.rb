@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :invoice_item do
-    item_id {1}
-    invoice_id {1}
+    association :item
+    association :invoice
     quantity {1}
     unit_price {15}
   end
