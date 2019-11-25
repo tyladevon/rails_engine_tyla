@@ -25,9 +25,8 @@ describe "Merchants API" do
   end
 
   it "can find by attributes and return one item" do
-    merchant_attributes = attributes_for(:merchant)
-    merchant = create(:merchant, merchant_attributes)
-
+    merchant = create(:merchant)
+    
     get "/api/v1/merchants/find?name=#{merchant.name}"
 
     response_body = JSON.parse(response.body, symbolize_names: true)
