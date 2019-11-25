@@ -38,6 +38,10 @@ Rails.application.routes.draw do
       get '/transactions/find_all', to: "transactions#find_all"
       get '/transactions/random', to: "transactions#random"
       get '/transactions/:id', to: "transactions#show"
+
+      namespace :merchants do
+        get '/:id/items', to: "items#index"
+      end
     end
   end
 end
